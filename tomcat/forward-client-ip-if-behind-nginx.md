@@ -6,10 +6,12 @@ this is because nginx need to pass the new ip to the client.
 
 Here it is the required nginx config to allow it to pass the information onto the tomcat.
 ```
-proxy_set_header Host $host:$server_port;
-proxy_set_header  X-Real-IP $remote_addr;
-proxy_set_header  X-Forwarded-For $proxy_add_x_forwarded_for;
-proxy_set_header  X-Forwarded-Host $remote_addr;
+proxy_set_header    X-Forwarded-Proto $scheme;
+proxy_set_header    X-Scheme $scheme;
+proxy_set_header    Host $host;
+proxy_set_header    X-Real-IP $remote_addr;
+proxy_set_header    X-Forwarded-For $proxy_add_x_forwarded_for;
+proxy_set_header    X-Forwarded-Host $remote_addr;
 
 proxy_pass http://127.0.0.1:8080;
 ```
@@ -24,13 +26,14 @@ Also, in the *context.xml* of tomcat you can use the RemoteIpValve to convert th
 
 ```xml
 <Valve className="org.apache.catalina.valves.RemoteIpValve"
-                       remoteIpHeader="x-forwarded-for"
-                       requestAttributesEnabled="true" />
+        protocolHeader="x-forwarded-proto"
+        remoteIpHeader="x-forwarded-for"
+        requestAttributesEnabled="true" />
 ```
 
 **notes**
 for the remoteIpHeader you can use both 'x-forwarded-for' or 'X-REAL-IP', the former should contain all the chain of forwarded ip.
-
+the protocolHeader is needed so you avoid the issues with the nginx error "400 Bad Request The plain HTTP request was sent to HTTPS port"
 
 ## Addon if nginx is behind a balancer or a proxy ##
 
