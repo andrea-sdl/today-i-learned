@@ -6,6 +6,7 @@ sudo firewall-cmd --permanent --add-service=ssh
 sudo firewall-cmd --permanent --add-port=2222/tcp
 sudo firewall-cmd --permanent --add-service=http
 sudo firewall-cmd --permanent --add-service=https
+sudo firewall-cmd --reload
 ```
 
 
