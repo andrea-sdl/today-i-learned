@@ -14,7 +14,7 @@ creating both the repo files
 mysqldump --all-databases --user=root --password > full_backup.sql
 cp /etc/my.cnf /etc/my.cnf.bak
 service nginx stop
-service mysql stop
+service mysqld stop
 cp -R /var/lib/mysql /tmp/mysql51_backup
 ```
 ## Migrating to 5.5
@@ -24,7 +24,7 @@ mv mariadb55.disabled mariadb55.repo
 yum clean all
 yum remove mysql-server
 yum install mysql-server
-service mysql start
+service mysqld start
 mysql_upgrade -p
 ```
 
@@ -40,7 +40,7 @@ mv mariadb55.repo mariadb55.disabled
 mv mariadb10.disabled mariadb10.repo
 yum clean all
 yum install mysql-server mysql-client
-service mysql start
+service mysqld start
 mysql_upgrade -p
 ```
 
