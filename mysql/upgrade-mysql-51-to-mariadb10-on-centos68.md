@@ -24,7 +24,7 @@ mv mariadb55.disabled mariadb55.repo
 yum clean all
 yum remove mysql-server
 yum install mysql-server
-service mysqld start
+service mysql start
 mysql_upgrade -p
 ```
 
@@ -40,7 +40,7 @@ mv mariadb55.repo mariadb55.disabled
 mv mariadb10.disabled mariadb10.repo
 yum clean all
 yum install mysql-server mysql-client
-service mysqld start
+service mysql start
 mysql_upgrade -p
 ```
 
