@@ -23,6 +23,7 @@ git init
 git remote add origin $2
 git push -u origin --all
 
+cd..
 rm -rf $1
 rm -rf $1.git
 ```
