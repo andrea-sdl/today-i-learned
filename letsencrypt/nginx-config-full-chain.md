@@ -1,0 +1,6 @@
+# Example nginx config for full chain
+
+```
+  ssl_certificate /etc/letsencrypt/live/example.com/fullchain.pem;
+  ssl_certificate_key /etc/letsencrypt/live/example.com/privkey.pem;
+```
