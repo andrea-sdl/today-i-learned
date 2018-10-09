@@ -6,3 +6,4 @@
 * `netstat -tuple` listening as server, with process id
 * `last` last logged users 
 * `free -m` free memory
+* `glances --white-theme` alternative to top/htop
