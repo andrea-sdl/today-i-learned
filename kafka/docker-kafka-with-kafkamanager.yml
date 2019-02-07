@@ -47,6 +47,23 @@ services:
       - /tmp/local-kafka-docker/kafka2/data:/var/lib/kafka/data
     depends_on:
       - zoo1
+
+  kafka3:
+    image: confluentinc/cp-kafka:5.1.0
+    hostname: kafka3
+    ports:
+      - "9094:9094"
+    environment:
+      KAFKA_ADVERTISED_LISTENERS: LISTENER_DOCKER_INTERNAL://kafka3:19094,LISTENER_DOCKER_EXTERNAL://${DOCKER_HOST_IP:-127.0.0.1}:9094
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: LISTENER_DOCKER_INTERNAL:PLAINTEXT,LISTENER_DOCKER_EXTERNAL:PLAINTEXT
+      KAFKA_INTER_BROKER_LISTENER_NAME: LISTENER_DOCKER_INTERNAL
+      KAFKA_ZOOKEEPER_CONNECT: "zoo1:2181"
+      KAFKA_BROKER_ID: 3
+      KAFKA_LOG4J_LOGGERS: "kafka.controller=INFO,kafka.producer.async.DefaultEventHandler=INFO,state.change.logger=INFO"
+    volumes:
+      - /tmp/local-kafka-docker/kafka3/data:/var/lib/kafka/data
+    depends_on:
+      - zoo1
   
   kafka_manager:
     image: hlebalbau/kafka-manager:stable
