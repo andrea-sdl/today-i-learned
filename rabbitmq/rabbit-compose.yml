@@ -1,0 +1,13 @@
+version: '3'
+
+services:
+  rabbit1:
+    image: rabbitmq:3-management
+    environment:
+      RABBITMQ_ERLANG_COOKIE: DKDKDAN3318DNDA
+      RABBITMQ_DEFAULT_USER: rabbitmq-admin
+      RABBITMQ_DEFAULT_PASS: rabbitmq-admin
+      RABBITMQ_DEFAULT_VHOST: "/"
+    ports:
+      - 15672:15672
+      - 5672:5672
