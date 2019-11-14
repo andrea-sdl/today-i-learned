@@ -1,0 +1,21 @@
+version: '3'
+
+services:
+  hadoop-namenode:
+    image: 'uhopper/hadoop-namenode'
+    hostname: hadoop-namenode
+    ports:
+      - "8020:8020"
+      - '5080:50070'
+    environment:
+      - CLUSTER_NAME=hadoop-sandbox
+      - HDFS_CONF_dfs_replication=1
+
+  hadoop-datanode:
+    image: "uhopper/hadoop-datanode"
+    environment:
+      - CORE_CONF_fs_defaultFS=hdfs://hadoop-namenode:8020
+      - CLUSTER_NAME=hadoop-sandbox
+      - HDFS_CONF_dfs_replication=1
+    depends_on:
+      - "hadoop-namenode"

@@ -1,0 +1,41 @@
+version: '2.1'
+
+services:  
+  zoo2:
+    image: zookeeper:3.4.9
+    hostname: zoo2
+    ports:
+      - "2181:2181"
+    environment:
+      ZOO_MY_ID: 1
+      ZOO_PORT: 2181
+      ZOO_SERVERS: server.1=zoo2:2888:3888
+    volumes:
+      - /tmp/local-kafka-docker/zoo2/data:/data
+      - /tmp/local-kafka-docker/zoo2/datalog:/datalog
+  kafkademo:
+    image: wurstmeister/kafka
+    hostname: kafkademo
+    ports:
+      - "9092:9092"
+    environment:
+      KAFKA_LISTENERS: LISTENER_DOCKER_INTERNAL://:19092,LISTENER_DOCKER_EXTERNAL://:9092
+      KAFKA_ADVERTISED_LISTENERS: LISTENER_DOCKER_INTERNAL://kafkademo:19092,LISTENER_DOCKER_EXTERNAL://${DOCKER_HOST_IP:-127.0.0.1}:9092
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: LISTENER_DOCKER_INTERNAL:PLAINTEXT,LISTENER_DOCKER_EXTERNAL:PLAINTEXT
+      KAFKA_INTER_BROKER_LISTENER_NAME: LISTENER_DOCKER_INTERNAL
+      KAFKA_ZOOKEEPER_CONNECT: "zoo2:2181"
+      KAFKA_BROKER_ID: 1
+      KAFKA_LOG4J_LOGGERS: "kafka.controller=INFO,kafka.producer.async.DefaultEventHandler=INFO,state.change.logger=INFO"
+    volumes:
+      - /tmp/local-kafka-docker/kafkademo/data:/var/lib/kafka/data
+    depends_on:
+      - zoo2
+  
+  kafka_manager:
+    image: hlebalbau/kafka-manager:stable
+    ports:
+      - "9000:9006"
+    environment:
+      ZK_HOSTS: "zoo2:2181"
+      APPLICATION_SECRET: "random-secret"
+    command: -Dpidfile.path=/dev/null
