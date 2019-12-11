@@ -10,7 +10,7 @@ To add the web ui you can use these commands
 
 
 ```sh
-kubectl create -f https://raw.githubusercontent.com/kubernetes/dashboard/v1.10.1/src/deploy/alternative/kubernetes-dashboard.yaml
+kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/v2.0.0-beta6/aio/deploy/recommended.yaml
 ```
 
 2. Proxy the ui
